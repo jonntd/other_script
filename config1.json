@@ -1,0 +1,45 @@
+{
+  "inbounds": [
+    {
+      "port": 12328,
+      "listen": "127.0.0.1",
+      "protocol": "vless", // 升级 1: vmess 改为 vless
+      "settings": {
+        "clients": [
+          {
+            "id": "427e7d8c-4154-4191-b77b-062ff9d777be", // 保持你原有的 UUID
+            "level": 1
+          }
+        ],
+        "decryption": "none" // VLESS 服务端必须设置为 none
+      },
+      "streamSettings": {
+        "network": "xhttp", // 升级 2: ws 改为 xhttp
+        "xhttpSettings": {
+          "path": "/python", // 保持你原有的路径
+          "mode": "stream-one" // 匹配前沿标准的流模式
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "settings": {}
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "ip": ["geoip:private"],
+        "outboundTag": "blocked"
+      }
+    ]
+  }
+}
